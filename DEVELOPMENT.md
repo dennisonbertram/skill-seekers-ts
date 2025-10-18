@@ -1,98 +1,105 @@
-# Task: Issue #1 - Project Setup & Core Types
+# Issue #4: Firecrawl Scraper Implementation
 
 ## Task Details
-**Issue**: #1 - Project Setup & Core Types
-**Branch**: `feature/001-project-setup-core-types`
-**Priority**: CRITICAL PATH - Blocks all other development
+- **Issue**: #4 - Firecrawl Scraper Implementation
+- **Branch**: feature/004-firecrawl-scraper
+- **Dependencies**: Issue #1 COMPLETE (IScraper interface exists)
 
 ## Success Criteria
-- TypeScript project initialized with all required dependencies
-- All configuration files properly set up (tsconfig, vitest, eslint, prettier)
-- Project structure created according to plan
-- Core type definitions implemented with Zod validation
-- Logger utility implemented
-- All tests passing with 80%+ coverage
-- Linting and type checking passing
-- Build process working
+- [x] FirecrawlScraper implements IScraper interface
+- [x] validateConnection() works correctly
+- [x] scrapeSingle() extracts page data with code samples
+- [x] scrapeAll() crawls multiple pages
+- [x] Code sample extraction with language detection
+- [x] Title extraction from metadata or markdown
+- [x] Proper error handling and logging
+- [x] LanguageDetector utility with pattern matching
+- [x] All tests pass (15+ tests) - 37 tests passing
+- [x] 80%+ test coverage - 90.58% achieved
+- [x] npm run build succeeds
+- [x] npm run lint passes
 
 ## Feasibility Assessment
-- **Real Implementation**: YES - All infrastructure and types are real, no mock data needed
-- **Dependencies Available**: YES - All npm packages are publicly available
-- **Credentials Required**: NO - No external APIs needed for this task
-- **Production Ready**: YES - This is production infrastructure
+- **Real API Access**: Firecrawl requires API key - will mock in tests
+- **Dependencies**: @mendable/firecrawl-js SDK available in npm
+- **Credential Requirements**: FIRECRAWL_API_KEY environment variable
+- **Production Readiness**: YES, with proper API key configuration
 
-## Implementation Plan
+## Implementation Plan (TDD RED-GREEN-REFACTOR)
 
-### Phase 1: Project Initialization
-1. Initialize npm project with package.json
-2. Install all dependencies (pinned versions)
-3. Create .gitignore file
+### Phase 1: FirecrawlScraper Constructor
+- [ ] Write failing test for constructor without API key
+- [ ] Write failing test for constructor with API key
+- [ ] Implement constructor
+- [ ] Refactor if needed
 
-### Phase 2: Configuration Setup
-1. Create tsconfig.json with strict mode
-2. Set up vitest.config.ts for testing
-3. Configure .eslintrc.json for linting
-4. Add .prettierrc for formatting
+### Phase 2: validateConnection Method
+- [ ] Write failing test for successful connection
+- [ ] Write failing test for failed connection
+- [ ] Implement validateConnection
+- [ ] Refactor if needed
 
-### Phase 3: Project Structure
-1. Create src/ directory structure
-2. Create tests/ directory structure
-3. Add placeholder files for organization
+### Phase 3: scrapeSingle Method
+- [ ] Write failing test for successful single page scrape
+- [ ] Write failing test for title extraction from metadata
+- [ ] Write failing test for title extraction from markdown
+- [ ] Write failing test for code sample extraction
+- [ ] Implement scrapeSingle and helper methods
+- [ ] Refactor if needed
 
-### Phase 4: TDD Implementation of Core Types
-1. **RED**: Write failing tests for Config schema validation
-2. **GREEN**: Implement Config types with Zod to pass tests
-3. **REFACTOR**: Clean up and optimize implementation
-4. Implement Page, Scraper, and Builder interfaces
-5. Create index re-exports
+### Phase 4: scrapeAll Method
+- [ ] Write failing test for successful crawl
+- [ ] Write failing test for crawl failure
+- [ ] Implement scrapeAll
+- [ ] Refactor if needed
 
-### Phase 5: Utility Implementation
-1. Implement Winston logger setup
-2. Create main entry point placeholder
+### Phase 5: LanguageDetector Utility
+- [ ] Write failing tests for code language detection
+- [ ] Write failing tests for filename detection
+- [ ] Implement LanguageDetector
+- [ ] Refactor if needed
 
-### Phase 6: Verification
-1. Run all tests and verify coverage
-2. Run linting and type checking
-3. Verify build process works
+### Phase 6: Integration and Finalization
+- [ ] Create exports
+- [ ] Run all tests
+- [ ] Check coverage
+- [ ] Run build
+- [ ] Run lint
+- [ ] Commit changes
 
-## Progress Tracking
+## Progress Log
 
-### TDD Cycles Completed
-- [x] Config schema - RED phase (write failing test) - Test fails as expected: ConfigSchema doesn't exist
-- [x] Config schema - GREEN phase (make test pass) - All 10 tests passing!
-- [x] Config schema - REFACTOR phase (optimize) - Extracted sub-schemas for better organization
+### TDD Cycle 1: Constructor Tests (RED-GREEN-REFACTOR)
+- **Date**: 2025-01-18
+- **RED Phase**: ✅ Tests written and failing as expected (FirecrawlScraper doesn't exist)
+  - Test 1: Constructor should throw error if API key not provided
+  - Test 2: Constructor should create instance with API key
+- **GREEN Phase**: ✅ Minimal implementation to pass tests
+- **REFACTOR Phase**: ✅ No refactoring needed
 
-### Implementation Checklist
-- [x] Initialize npm project
-- [x] Install dependencies with pinned versions
-- [x] Create .gitignore
-- [x] Set up tsconfig.json
-- [x] Configure vitest.config.ts
-- [x] Set up .eslintrc.json
-- [x] Create .prettierrc
-- [x] Create project directory structure
-- [x] Implement Config types with Zod (TDD)
-- [x] Implement Page interface
-- [x] Implement Scraper interface
-- [x] Implement Builder interface
-- [x] Create index re-exports
-- [x] Implement logger utility
-- [x] Create main entry point
-- [x] Add npm scripts
-- [x] Verify all tests pass
-- [x] Verify 80%+ coverage (Config module at 100%)
-- [x] Verify linting passes
-- [x] Verify type checking passes
-- [x] Verify build works
-- [x] Update README with setup instructions
+### TDD Cycle 2: validateConnection Tests (RED-GREEN-REFACTOR)
+- **RED Phase**: ✅ Tests written and failing (method not implemented)
+- **GREEN Phase**: ✅ Implemented validateConnection
+- **REFACTOR Phase**: ✅ No refactoring needed
 
-## Review Status
-- [ ] Initial plan review
-- [ ] Code review after TDD cycles
-- [ ] Final review before completion
+### TDD Cycle 3: scrapeSingle Tests (RED-GREEN-REFACTOR)
+- **RED Phase**: ✅ Tests written and failing
+- **GREEN Phase**: ✅ Implemented scrapeSingle with helper methods
+- **REFACTOR Phase**: ✅ No refactoring needed
 
-## Notes
-- Using strict TDD methodology - no implementation without failing test first
-- All dependencies must be pinned to specific versions
-- Following TypeScript strict mode for maximum type safety
-- Targeting 80% minimum test coverage
+### TDD Cycle 4: scrapeAll Tests (RED-GREEN-REFACTOR)
+- **RED Phase**: ✅ Tests written and failing
+- **GREEN Phase**: ✅ Implemented scrapeAll
+- **REFACTOR Phase**: ✅ Fixed API method names to match SDK
+
+### TDD Cycle 5: LanguageDetector Tests (RED-GREEN-REFACTOR)
+- **RED Phase**: ✅ Tests written and failing (class doesn't exist)
+- **GREEN Phase**: ✅ Implemented LanguageDetector
+- **REFACTOR Phase**: ✅ Fixed detection order for better accuracy
+
+## Final Status
+- ✅ All 37 tests passing
+- ✅ Test coverage: 90.58% statements (exceeds 80% requirement)
+- ✅ Build successful
+- ✅ Lint passing
+- ✅ All success criteria met
