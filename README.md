@@ -64,28 +64,72 @@ Comprehensive planning documents available in `/docs`:
 - **TDD_AND_FIRECRAWL_STRATEGY.md** - Testing approach and Firecrawl integration
 - **DEPENDENCY_ANALYSIS.md** - Task dependencies and parallelization strategy
 
-## Getting Started (Post-Development)
+## Getting Started
+
+### Setup (Issue #1 Complete)
 
 ```bash
 # Install dependencies
 npm install
 
-# Run in development mode
-npm run dev
-
-# Build for production
+# Build TypeScript project
 npm run build
 
 # Run tests
 npm test
 
-# Scrape documentation
+# Run tests with coverage
+npm run test:coverage
+
+# Run linting
+npm run lint
+
+# Type checking
+npm run type-check
+
+# Format code
+npm run format
+```
+
+### Project Structure
+
+```
+src/
+├── types/          # Type definitions and interfaces
+│   ├── config.ts   # Config schema with Zod validation
+│   ├── page.ts     # Page interface for scraped content
+│   ├── scraper.ts  # IScraper interface
+│   ├── builder.ts  # IBuilder interface
+│   └── index.ts    # Type exports
+├── utils/
+│   └── logger.ts   # Winston logger setup
+└── index.ts        # Main entry point
+
+tests/
+├── types/
+│   ├── config.test.ts    # Config schema tests (TDD)
+│   └── validation.test.ts # Sub-schema validation tests
+└── setup.ts              # Test setup
+```
+
+### Core Types Available
+
+- **Config**: Zod-validated configuration schema
+- **Page**: Interface for scraped documentation pages
+- **IScraper**: Interface for scraper implementations
+- **IBuilder**: Interface for skill builders
+- **Logger**: Winston logger instance
+
+### Development Commands (Post-Development)
+
+```bash
+# Scrape documentation (to be implemented)
 npm run cli -- scrape --config configs/example.json
 
-# Build a skill
+# Build a skill (to be implemented)
 npm run cli -- build --name example-skill
 
-# Package a skill
+# Package a skill (to be implemented)
 npm run cli -- package output/example-skill
 ```
 
