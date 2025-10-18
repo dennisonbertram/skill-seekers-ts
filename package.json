@@ -4,7 +4,9 @@
   "description": "Convert documentation websites into Claude Code skills with intelligent scraping and AI enhancement",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "type": "module",
+  "bin": {
+    "skill-seekers": "./bin/skill-seekers.js"
+  },
   "scripts": {
     "build": "tsc",
     "test": "vitest",
