@@ -2,7 +2,11 @@
  * Main entry point for skill-seekers-ts
  */
 
+// Export all public APIs
 export * from './types';
-export { logger } from './utils/logger';
+export * from './utils';
+export * from './core';
 
-// Main entry point - to be implemented in later issues
+// Re-export main builder for convenience
+export { SkillBuilder } from './core/builder/skill-builder';
+export type { BuildResult } from './core/builder/skill-builder';
