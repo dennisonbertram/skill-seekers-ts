@@ -1,6 +1,7 @@
 /**
- * Export utilities for the skill-seekers package
+ * Utilities module - exports all utility functions
  */
 
 export * from './logger';
 export * from './validation';
+export * from './fs';
