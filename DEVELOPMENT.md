@@ -1,137 +1,131 @@
-# DEVELOPMENT LOG - Issue #8: Categorization System
+# Development Plan: Issue #9 - Reference Generator
 
 ## Task Details
-Implement a comprehensive categorization system that organizes scraped pages into categories, building on the basic categorization in ContentProcessor by adding category management, statistics, and validation.
+
+**Issue**: #9 - Reference Generator
+**Branch**: feature/009-reference-generator
+**Dependencies**: Issues #2 (schemas) and #3 (file system utils) are COMPLETE
+**Worktree**: /Users/dennisonbertram/Develop/ModelContextProtocol/.worktrees-skill-seekers-ts/009-reference-generator
+
+## Objective
+
+Implement a reference generator that creates individual markdown reference files for each page. These files will be saved to `references/` directory and serve as the knowledge base for the skill.
 
 ## Success Criteria
-- [x] Categorizer class with categorization logic
-- [x] categorizePage() organizes pages by category
-- [x] calculateStats() computes statistics per category
-- [x] getCategoryPages() retrieves pages for specific category
-- [x] getNonEmptyCategories() returns only populated categories
-- [x] validateCategorization() ensures no pages lost
-- [x] All tests pass (15 tests - exceeded minimum)
-- [x] 100% test coverage (exceeded 80% target)
-- [x] npm run build succeeds
-- [x] npm run lint passes
+
+- [ ] ReferenceGenerator class implemented
+- [ ] generateReferences() creates markdown files for pages
+- [ ] generateFilename() converts URLs to valid filenames
+- [ ] generateReferenceContent() creates well-formatted markdown
+- [ ] generateIndex() creates INDEX.md with file list
+- [ ] generateAll() combines references + index generation
+- [ ] Handles category subdirectories
+- [ ] Deduplicates and limits links to 20
+- [ ] All tests pass (20+ tests required)
+- [ ] 80%+ test coverage
+- [ ] npm run build succeeds
+- [ ] npm run lint passes
+- [ ] No type errors (strict mode)
 
 ## Feasibility Assessment
-✅ **FEASIBLE** - This task builds on existing types and ContentProcessor
-- All required types (Page, Config) exist from Issue #2
-- ContentProcessor with basic categorization exists from Issue #6
-- No external services or credentials required
-- All dependencies available in codebase
 
-## Dependency Verification
-- ✅ Issue #2 complete (Zod schemas with Page and Config types)
-- ✅ Issue #6 complete (ContentProcessor with basic categorization)
-- ✅ Logger utility available from Issue #3
-- ✅ Test infrastructure in place (Vitest)
+✅ **REAL IMPLEMENTATION READY**
+- File system utilities already exist (src/utils/fs.ts)
+- Page types and schemas already defined (src/types/page.ts)
+- Logger utility available for tracking
+- All dependencies are in place
 
-## Implementation Plan
+✅ **NO EXTERNAL SERVICES REQUIRED**
+- Pure file system operations
+- Markdown generation from existing data structures
+- No API calls or external dependencies needed
 
-### Phase 1: Test Infrastructure Setup (RED)
-1. Create test file structure
-2. Write failing tests for categorizePage()
-3. Write failing tests for calculateStats()
-4. Verify all tests fail
+✅ **PRODUCTION READY**
+- Real file I/O operations
+- Proper error handling through existing utilities
+- Type-safe implementation with Zod schemas
+- Comprehensive test coverage with real files
 
-### Phase 2: Core Categorization (GREEN)
-1. Implement Categorizer class skeleton
-2. Implement categorizePage() to pass tests
-3. Implement calculateStats() to pass tests
-4. Verify all tests pass
+## Dependencies Verification
 
-### Phase 3: Helper Methods (RED-GREEN)
-1. Write failing tests for getCategoryPages()
-2. Implement getCategoryPages()
-3. Write failing tests for getNonEmptyCategories()
-4. Implement getNonEmptyCategories()
-5. Write failing tests for validateCategorization()
-6. Implement validateCategorization()
+✅ **Available Dependencies**:
+- fs/promises (Node.js built-in)
+- path (Node.js built-in)
+- Page types from src/types/page.ts
+- File system utilities from src/utils/fs.ts
+- Logger from src/utils/logger.ts
+- Vitest for testing
 
-### Phase 4: Refactoring and Polish (REFACTOR)
-1. Refactor for code quality
-2. Add comprehensive edge case tests
-3. Ensure 80%+ coverage
-4. Update exports
+✅ **Required Infrastructure**:
+- File system access: ✅ Available
+- Test framework: ✅ Vitest configured
+- TypeScript: ✅ Configured with strict mode
 
-### Phase 5: Final Validation
-1. Run all tests
-2. Check coverage
-3. Build verification
-4. Lint verification
+## TDD Methodology - RED-GREEN-REFACTOR Cycles
 
-## Progress Log
+### Cycle 1: Filename Generation
+- **RED**: Write failing tests for generateFilename()
+- **GREEN**: Implement generateFilename() to pass tests
+- **REFACTOR**: Optimize filename sanitization
 
-### 2025-10-18: Initial Setup
-- Created worktree: /Users/dennisonbertram/Develop/ModelContextProtocol/.worktrees-skill-seekers-ts/008-categorization-system
-- Branch: feature/008-categorization-system
-- Created DEVELOPMENT.md
-- Reviewed existing ContentProcessor categorization logic
+### Cycle 2: Markdown Content Generation
+- **RED**: Write failing tests for generateReferenceContent()
+- **GREEN**: Implement generateReferenceContent() to pass tests
+- **REFACTOR**: Improve markdown formatting
 
-### 2025-10-18: TDD RED Phase
-- Created comprehensive test file with 15 tests
-- Tests covered all required functionality:
-  - categorizePage() with URL patterns, pre-assigned categories, uncategorized handling
-  - calculateStats() with metrics calculation and sorting
-  - getCategoryPages() for category retrieval
-  - getNonEmptyCategories() for filtering empty categories
-  - validateCategorization() for integrity checking
-- Verified all tests fail (module not found)
+### Cycle 3: Reference File Creation
+- **RED**: Write failing tests for generateReferences()
+- **GREEN**: Implement generateReferences() to pass tests
+- **REFACTOR**: Optimize file I/O operations
 
-### 2025-10-18: TDD GREEN Phase
-- Created src/core/builder/categorizer.ts with full implementation
-- Implemented all methods:
-  - categorizePage(): Uses ContentProcessor for categorization, organizes into Map
-  - calculateStats(): Computes pageCount, totalCodeSamples, averageContentLength
-  - getCategoryPages(): Retrieves pages for specific category
-  - getNonEmptyCategories(): Returns sorted list of non-empty categories
-  - validateCategorization(): Ensures no pages lost during categorization
-- Fixed test cases to use non-matching URLs (testsite.com instead of example.com)
-- All 15 tests passing
+### Cycle 4: Index Generation
+- **RED**: Write failing tests for generateIndex()
+- **GREEN**: Implement generateIndex() to pass tests
+- **REFACTOR**: Improve index formatting
 
-### 2025-10-18: Export Configuration & Final Validation
-- Created src/core/builder/index.ts for exports
-- Updated src/core/index.ts to include builder module
-- Verified all 172 tests pass (157 existing + 15 new)
-- Achieved 100% coverage on categorizer.ts
-- npm run build: SUCCESS
-- npm run lint: SUCCESS
+### Cycle 5: Combined Operations
+- **RED**: Write failing tests for generateAll()
+- **GREEN**: Implement generateAll() to pass tests
+- **REFACTOR**: Final cleanup and optimization
+
+## Progress Tracking
+
+### TDD Cycles
+- [ ] Cycle 1: Filename Generation (RED-GREEN-REFACTOR)
+- [ ] Cycle 2: Markdown Content (RED-GREEN-REFACTOR)
+- [ ] Cycle 3: Reference Files (RED-GREEN-REFACTOR)
+- [ ] Cycle 4: Index Generation (RED-GREEN-REFACTOR)
+- [ ] Cycle 5: Combined Operations (RED-GREEN-REFACTOR)
+
+### Overall Progress
+- [x] Planning document created
+- [ ] Test file created (with failing tests)
+- [ ] Implementation file created
+- [ ] All tests passing
+- [ ] Coverage target met (80%+)
+- [ ] Build passing
+- [ ] Lint passing
+- [ ] Code committed
+
+## Edge Cases to Handle
+
+1. **URL Variations**:
+   - Root URL (/)
+   - Deep nested paths (/a/b/c/d)
+   - URLs with special characters
+   - URLs with encoded characters
+
+2. **Content Variations**:
+   - Pages without markdown
+   - Pages without code samples
+   - Pages without links
+   - Pages with many links (>20)
+   - Duplicate links
+
+3. **File System**:
+   - Category subdirectories
+   - Invalid filename characters
 
 ## Observed Issues
-(None yet)
 
-## Code Review Status
-- [ ] Initial implementation review
-- [ ] Final review before completion
-
-## Verification Checklist
-- [x] All tests pass (172/172 tests passing)
-- [x] 100% coverage achieved (exceeded 80% target)
-- [x] npm run build succeeds
-- [x] npm run lint passes
-- [x] No hardcoded data or fake functionality
-- [x] Real implementation verified
-
-## Implementation Notes
-
-### Categorization Algorithm
-- Leverages existing ContentProcessor.categorizePage() for keyword scoring
-- Respects pre-assigned categories on Page objects
-- Falls back to 'uncategorized' for pages that don't match any category
-- Uses Map<string, Page[]> for efficient category-based retrieval
-
-### Statistics Calculation
-- Calculates per-category metrics:
-  - pageCount: Total pages in category
-  - totalCodeSamples: Sum of all code samples
-  - averageContentLength: Mean content length across pages
-- Automatically sorts stats by page count (descending)
-- Includes uncategorized pages in statistics when present
-
-### Validation
-- validateCategorization() ensures no pages are lost during categorization
-- Counts all pages across categories and uncategorized
-- Logs errors when mismatches detected
-- Returns boolean for easy integration in workflows
+(Document any unrelated issues discovered during implementation)
