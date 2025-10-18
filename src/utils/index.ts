@@ -5,3 +5,4 @@
 export * from './logger';
 export * from './validation';
 export * from './fs';
+export * from './language-detector';

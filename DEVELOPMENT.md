@@ -1,98 +1,122 @@
-# Task: Issue #3 - Logger & File System Utilities
+# Issue #4: Firecrawl Scraper Implementation
 
 ## Task Details
+- **Issue**: #4 - Firecrawl Scraper Implementation
+- **Branch**: feature/004-firecrawl-scraper
+- **Dependencies**: Issue #1 COMPLETE (IScraper interface exists)
+
+## Success Criteria
+- [x] FirecrawlScraper implements IScraper interface
+- [x] validateConnection() works correctly
+- [x] scrapeSingle() extracts page data with code samples
+- [x] scrapeAll() crawls multiple pages
+- [x] Code sample extraction with language detection
+- [x] Title extraction from metadata or markdown
+- [x] Proper error handling and logging
+- [x] LanguageDetector utility with pattern matching
+- [x] All tests pass (15+ tests) - 37 tests passing
+- [x] 80%+ test coverage - 90.58% achieved
+- [x] npm run build succeeds
+- [x] npm run lint passes
+
+## Feasibility Assessment
+- **Real API Access**: Firecrawl requires API key - will mock in tests
+- **Dependencies**: @mendable/firecrawl-js SDK available in npm
+- **Credential Requirements**: FIRECRAWL_API_KEY environment variable
+- **Production Readiness**: YES, with proper API key configuration
+
+## Implementation Plan (TDD RED-GREEN-REFACTOR)
+
+### Phase 1: FirecrawlScraper Constructor
+- [x] Write failing test for constructor without API key
+- [x] Write failing test for constructor with API key
+- [x] Implement constructor
+- [x] Refactor if needed
+
+### Phase 2: validateConnection Method
+- [x] Write failing test for successful connection
+- [x] Write failing test for failed connection
+- [x] Implement validateConnection
+- [x] Refactor if needed
+
+### Phase 3: scrapeSingle Method
+- [x] Write failing test for successful single page scrape
+- [x] Write failing test for title extraction from metadata
+- [x] Write failing test for title extraction from markdown
+- [x] Write failing test for code sample extraction
+- [x] Implement scrapeSingle and helper methods
+- [x] Refactor if needed
+
+### Phase 4: scrapeAll Method
+- [x] Write failing test for successful crawl
+- [x] Write failing test for crawl failure
+- [x] Implement scrapeAll
+- [x] Refactor if needed
+
+### Phase 5: LanguageDetector Utility
+- [x] Write failing tests for code language detection
+- [x] Write failing tests for filename detection
+- [x] Implement LanguageDetector
+- [x] Refactor if needed
+
+### Phase 6: Integration and Finalization
+- [x] Create exports
+- [x] Run all tests
+- [x] Check coverage
+- [x] Run build
+- [x] Run lint
+- [x] Commit changes
+
+## Progress Log
+
+### TDD Cycle 1: Constructor Tests (RED-GREEN-REFACTOR)
+- **Date**: 2025-01-18
+- **RED Phase**: ✅ Tests written and failing as expected (FirecrawlScraper doesn't exist)
+  - Test 1: Constructor should throw error if API key not provided
+  - Test 2: Constructor should create instance with API key
+- **GREEN Phase**: ✅ Minimal implementation to pass tests
+- **REFACTOR Phase**: ✅ No refactoring needed
+
+### TDD Cycle 2: validateConnection Tests (RED-GREEN-REFACTOR)
+- **RED Phase**: ✅ Tests written and failing (method not implemented)
+- **GREEN Phase**: ✅ Implemented validateConnection
+- **REFACTOR Phase**: ✅ No refactoring needed
+
+### TDD Cycle 3: scrapeSingle Tests (RED-GREEN-REFACTOR)
+- **RED Phase**: ✅ Tests written and failing
+- **GREEN Phase**: ✅ Implemented scrapeSingle with helper methods
+- **REFACTOR Phase**: ✅ No refactoring needed
+
+### TDD Cycle 4: scrapeAll Tests (RED-GREEN-REFACTOR)
+- **RED Phase**: ✅ Tests written and failing
+- **GREEN Phase**: ✅ Implemented scrapeAll
+- **REFACTOR Phase**: ✅ Fixed API method names to match SDK
+
+### TDD Cycle 5: LanguageDetector Tests (RED-GREEN-REFACTOR)
+- **RED Phase**: ✅ Tests written and failing (class doesn't exist)
+- **GREEN Phase**: ✅ Implemented LanguageDetector
+- **REFACTOR Phase**: ✅ Fixed detection order for better accuracy
+
+## Final Status
+- ✅ All 37 tests passing
+- ✅ Test coverage: 90.58% statements (exceeds 80% requirement)
+- ✅ Build successful
+- ✅ Lint passing
+- ✅ All success criteria met
+
+---
+
+# Previous Development: Issue #3 - Logger & File System Utilities
+
+## Task Details (COMPLETED)
 **Issue**: #3 - Logger & File System Utilities
 **Branch**: `003-logger-filesystem-utils`
 **Priority**: Core infrastructure utilities
+**Status**: ✅ Merged to main
 
-## Success Criteria
+## Implementation Summary
 - Enhanced logger with file transports and module loggers
 - FileSystemError custom error class
-- ensureDir utility works correctly
-- writeFile and readFile utilities work correctly
-- exists utility works correctly
-- remove utility works correctly
-- listFiles utility works correctly
-- readJsonFile and writeJsonFile utilities work correctly
-- All tests pass (minimum 20 tests for fs utilities)
-- 80%+ test coverage
-- npm run build succeeds
-- npm run lint passes
-- Proper error handling with custom FileSystemError
-
-## Feasibility Assessment
-- **Real Implementation**: YES - All functionality uses real Node.js fs APIs
-- **Dependencies Available**: YES - Winston already installed, fs/promises is built-in
-- **Credentials Required**: NO - Local file system operations only
-- **Production Ready**: YES - Real file system operations, no mocks
-
-## Implementation Plan
-
-### Phase 1: Logger Enhancement
-1. Write failing tests for enhanced logger functionality
-2. Enhance existing logger with file transports
-3. Add createModuleLogger function
-4. Ensure logs directory creation
-
-### Phase 2: FileSystemError Class
-1. Write failing tests for FileSystemError
-2. Implement custom error class
-3. Verify error handling
-
-### Phase 3: File System Utilities
-1. Write failing tests for each utility function
-2. Implement ensureDir
-3. Implement writeFile and readFile
-4. Implement exists
-5. Implement remove
-6. Implement listFiles
-7. Implement JSON file utilities
-
-### Phase 4: Integration & Testing
-1. Update exports in utils/index.ts
-2. Update .gitignore
-3. Run full test suite
-4. Verify coverage
-5. Run build and lint
-
-## Progress Tracking
-
-### TDD Cycles Completed
-- [x] Logger enhancement - RED phase (tests failed as expected)
-- [x] Logger enhancement - GREEN phase (all tests passing)
-- [x] Logger enhancement - REFACTOR phase (cleaned up test for timestamp)
-- [x] FileSystemError - RED phase (module not found)
-- [x] FileSystemError - GREEN phase (all tests passing)
-- [x] FileSystemError - REFACTOR phase (combined with fs utilities)
-- [x] File system utilities - RED phase (module not found)
-- [x] File system utilities - GREEN phase (all 22 tests passing)
-- [x] File system utilities - REFACTOR phase (optimized implementation)
-
-### Implementation Checklist
-- [x] DEVELOPMENT.md created
-- [x] Dependencies verified (Winston already installed, fs/promises built-in)
-- [x] Logger tests written (10 tests)
-- [x] Logger enhanced with file transports and module loggers
-- [x] FileSystemError tests written (1 test)
-- [x] FileSystemError implemented as custom error class
-- [x] File system utility tests written (22 tests)
-- [x] File system utilities implemented (8 functions)
-- [x] Index exports updated
-- [x] .gitignore already includes logs directory
-- [x] All tests passing (48 tests total)
-- [x] Coverage 83.27% statements (exceeds 80% requirement)
-- [x] Build succeeds
-- [x] Lint passes
-- [ ] Code review complete
-- [ ] Completion summary created
-
-## Review Status
-- [ ] Initial plan review
-- [ ] Code review after TDD cycles
-- [ ] Final review before completion
-
-## Notes
-- Using strict TDD methodology - no implementation without failing test first
-- All implementations use real Node.js APIs
-- No hardcoded values or fake functionality
-- Comprehensive error handling with custom errors
+- 8 file system utilities (ensureDir, writeFile, readFile, exists, remove, listFiles, readJsonFile, writeJsonFile)
+- 48 tests total with 83.27% coverage
+- All tests passing, build and lint successful
