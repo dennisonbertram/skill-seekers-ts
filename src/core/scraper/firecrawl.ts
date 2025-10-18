@@ -35,24 +35,38 @@ export class FirecrawlScraper implements IScraper {
     this.moduleLogger.info('Starting Firecrawl crawl', {
       baseUrl: this.config.base_url,
       maxPages: this.config.max_pages,
+      includePaths: this.config.url_patterns.include,
+      excludePaths: this.config.url_patterns.exclude,
     });
 
     try {
-      const crawlResult = await this.firecrawl.crawlUrl(this.config.base_url, {
-        limit: this.config.max_pages,
-        // Note: maxDepth removed - causes "URL depth exceeds maxDepth" errors with some sites
-        includePaths: this.config.url_patterns.include,
-        excludePaths: this.config.url_patterns.exclude,
-        scrapeOptions: {
-          formats: ['markdown', 'html', 'links'],
+      // Use crawlUrl with pollInterval - this waits for the async job to complete
+      // The pollInterval is the THIRD parameter (not in params object)
+      const crawlResult = await this.firecrawl.crawlUrl(
+        this.config.base_url,
+        {
+          limit: this.config.max_pages,
+          // Note: maxDepth removed - causes "URL depth exceeds maxDepth" errors with some sites
+          includePaths: this.config.url_patterns.include,
+          excludePaths: this.config.url_patterns.exclude,
+          scrapeOptions: {
+            formats: ['markdown', 'html', 'links'],
+          },
         },
-      });
+        2 // Poll every 2 seconds for job completion
+      );
 
       if (!crawlResult.success || !crawlResult.data) {
         throw new Error('Firecrawl crawl failed');
       }
 
-      this.moduleLogger.info(`Crawled ${crawlResult.data.length} pages`);
+      this.moduleLogger.info(`Crawl completed`, {
+        totalPages: crawlResult.data.length,
+        status: crawlResult.status,
+        completed: crawlResult.completed,
+        total: crawlResult.total,
+        creditsUsed: crawlResult.creditsUsed,
+      });
 
       return crawlResult.data.map((item: any) => this.transformToPage(item));
     } catch (error) {
