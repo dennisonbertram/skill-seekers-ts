@@ -40,7 +40,7 @@ export class FirecrawlScraper implements IScraper {
     try {
       const crawlResult = await this.firecrawl.crawlUrl(this.config.base_url, {
         limit: this.config.max_pages,
-        maxDepth: 3,
+        // Note: maxDepth removed - causes "URL depth exceeds maxDepth" errors with some sites
         includePaths: this.config.url_patterns.include,
         excludePaths: this.config.url_patterns.exclude,
         scrapeOptions: {
@@ -83,11 +83,15 @@ export class FirecrawlScraper implements IScraper {
   private transformToPage(data: any): Page {
     const codeSamples = this.extractCodeSamples(data.markdown || '');
 
+    // Get URL from either top-level (scrape API) or metadata (crawl API)
+    const url = data.url || data.metadata?.url || data.metadata?.sourceURL;
+
     // Validate URL exists and is valid
-    if (!data.url || typeof data.url !== 'string') {
+    if (!url || typeof url !== 'string') {
       this.moduleLogger.warn('Firecrawl returned data without valid URL', {
-        hasUrl: !!data.url,
-        urlType: typeof data.url,
+        hasTopLevelUrl: !!data.url,
+        hasMetadataUrl: !!data.metadata?.url,
+        hasMetadataSourceURL: !!data.metadata?.sourceURL,
         title: data.metadata?.title,
         hasMarkdown: !!data.markdown,
       });
@@ -100,20 +104,20 @@ export class FirecrawlScraper implements IScraper {
 
     // Validate URL is well-formed
     try {
-      new URL(data.url);
+      new URL(url);
     } catch (error) {
       this.moduleLogger.warn('Firecrawl returned malformed URL', {
-        url: data.url,
+        url,
         title: data.metadata?.title,
       });
       throw new Error(
-        `Firecrawl returned malformed URL: "${data.url}". ` +
+        `Firecrawl returned malformed URL: "${url}". ` +
         `Title: ${data.metadata?.title || 'unknown'}`
       );
     }
 
     return {
-      url: data.url,
+      url,
       title: data.metadata?.title || this.extractTitleFromMarkdown(data.markdown || ''),
       content: data.html || '',
       markdown: data.markdown,
