@@ -4,6 +4,9 @@
  * Provides commands: build, init, validate
  */
 
+// Load environment variables from .env file
+import 'dotenv/config';
+
 import { Command } from 'commander';
 import { CliLogger } from './utils/cli-logger';
 import { initCommand } from './commands/init';
