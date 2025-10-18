@@ -56,8 +56,36 @@ export class ReferenceGenerator {
    * Generate filename from page URL
    */
   private generateFilename(page: Page): string {
+    // Validate URL exists
+    if (!page.url || typeof page.url !== 'string') {
+      this.moduleLogger.error('Page missing URL', {
+        title: page.title,
+        hasContent: !!page.content,
+      });
+      throw new Error(
+        `Cannot generate filename: Page missing URL. ` +
+        `Title: "${page.title || 'unknown'}", ` +
+        `Has content: ${!!page.content}`
+      );
+    }
+
     // Extract path from URL
-    const url = new URL(page.url);
+    let url: URL;
+    try {
+      url = new URL(page.url);
+    } catch (error) {
+      this.moduleLogger.error('Invalid URL in page', {
+        url: page.url,
+        title: page.title,
+        error: error instanceof Error ? error.message : String(error),
+      });
+      throw new Error(
+        `Cannot generate filename: Invalid URL "${page.url}". ` +
+        `Title: "${page.title || 'unknown'}". ` +
+        `Error: ${error instanceof Error ? error.message : String(error)}`
+      );
+    }
+
     let filename = url.pathname;
 
     // Remove leading/trailing slashes

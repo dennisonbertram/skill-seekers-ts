@@ -83,8 +83,37 @@ export class FirecrawlScraper implements IScraper {
   private transformToPage(data: any): Page {
     const codeSamples = this.extractCodeSamples(data.markdown || '');
 
+    // Validate URL exists and is valid
+    if (!data.url || typeof data.url !== 'string') {
+      this.moduleLogger.warn('Firecrawl returned data without valid URL', {
+        hasUrl: !!data.url,
+        urlType: typeof data.url,
+        title: data.metadata?.title,
+        hasMarkdown: !!data.markdown,
+      });
+      throw new Error(
+        `Firecrawl returned invalid page data: missing or invalid URL. ` +
+        `Title: ${data.metadata?.title || 'unknown'}, ` +
+        `Has content: ${!!data.markdown}`
+      );
+    }
+
+    // Validate URL is well-formed
+    try {
+      new URL(data.url);
+    } catch (error) {
+      this.moduleLogger.warn('Firecrawl returned malformed URL', {
+        url: data.url,
+        title: data.metadata?.title,
+      });
+      throw new Error(
+        `Firecrawl returned malformed URL: "${data.url}". ` +
+        `Title: ${data.metadata?.title || 'unknown'}`
+      );
+    }
+
     return {
-      url: data.url || '',
+      url: data.url,
       title: data.metadata?.title || this.extractTitleFromMarkdown(data.markdown || ''),
       content: data.html || '',
       markdown: data.markdown,
